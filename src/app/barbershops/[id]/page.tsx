@@ -1,6 +1,8 @@
 import PhoneItem from "@/app/_components/phoneItem"
 import ServiceItem from "@/app/_components/serviceItem"
+import SidebarSheet from "@/app/_components/sidebarSheet"
 import { Button } from "@/app/_components/ui/button"
+import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet"
 import { db } from "@/app/_lib/prisma"
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
 import Image from "next/image"
@@ -14,6 +16,7 @@ interface BarbershopPageProps {
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+    // chamar o meu banco de dados
     const barbershop = await db.barbershop.findUnique({
         where: {
             id: params.id,
@@ -23,20 +26,16 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         },
     })
 
-    const services = barbershop?.services
-
-    console.log(services)
-
     if (!barbershop) {
         return notFound()
     }
 
     return (
         <div>
-            {/* // Imagem */}
+            {/* IMAGEM */}
             <div className="relative h-[250px] w-full">
                 <Image
-                    alt={barbershop?.name}
+                    alt={barbershop.name}
                     src={barbershop?.imageUrl}
                     fill
                     className="object-cover"
@@ -53,16 +52,21 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                     </Link>
                 </Button>
 
-                <Button
-                    size="icon"
-                    variant="secondary"
-                    className="absolute right-4 top-4"
-                >
-                    <MenuIcon />
-                </Button>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button
+                            size="icon"
+                            variant="outline"
+                            className="absolute right-4 top-4"
+                        >
+                            <MenuIcon />
+                        </Button>
+                    </SheetTrigger>
+                    <SidebarSheet />
+                </Sheet>
             </div>
 
-            {/* Titulo */}
+            {/* TÍTULO */}
             <div className="border-b border-solid p-5">
                 <h1 className="mb-3 text-xl font-bold">{barbershop.name}</h1>
                 <div className="mb-2 flex items-center gap-2">
@@ -76,8 +80,8 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 </div>
             </div>
 
-            {/* Descricao */}
-            <div className="space-y-3 border-b border-solid p-5">
+            {/* DESCRIÇÃO */}
+            <div className="space-y-2 border-b border-solid p-5">
                 <h2 className="text-xs font-bold uppercase text-gray-400">
                     Sobre nós
                 </h2>
@@ -86,7 +90,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 </p>
             </div>
 
-            {/* Servicos */}
+            {/* SERVIÇOS */}
             <div className="space-y-3 border-b border-solid p-5">
                 <h2 className="text-xs font-bold uppercase text-gray-400">
                     Serviços
@@ -98,7 +102,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 </div>
             </div>
 
-            {/* Contato */}
+            {/* CONTATO */}
             <div className="space-y-3 p-5">
                 {barbershop.phones.map((phone) => (
                     <PhoneItem key={phone} phone={phone} />
