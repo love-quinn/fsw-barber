@@ -6,6 +6,7 @@ import BarberShopItem from "./_components/barberShopItem"
 import { quickSearchOptions } from "./_constants/search"
 import BookingItem from "./_components/bookingItem"
 import Search from "./_components/search"
+import Link from "next/link"
 
 const Home = async () => {
     // Chamar banco de dados
@@ -35,14 +36,17 @@ const Home = async () => {
                             key={option.title}
                             className="gap-2"
                             variant="secondary"
+                            asChild
                         >
-                            <Image
-                                src={option.imageUrl}
-                                width={16}
-                                height={16}
-                                alt={option.imageUrl}
-                            />
-                            {option.title}
+                            <Link href={`/barbershops?service=${option.title}`}>
+                                <Image
+                                    src={option.imageUrl}
+                                    width={16}
+                                    height={16}
+                                    alt={option.imageUrl}
+                                />
+                                {option.title}
+                            </Link>
                         </Button>
                     ))}
                 </div>
