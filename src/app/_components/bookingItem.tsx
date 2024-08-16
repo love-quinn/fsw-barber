@@ -78,7 +78,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                             >
                                 {isConfirmed ? "Confirmado" : "Finalizado"}
                             </Badge>
-                            <h3 className="font-semibold">
+                            <h3 className="text-left font-semibold">
                                 {booking.service.name}
                             </h3>
 
